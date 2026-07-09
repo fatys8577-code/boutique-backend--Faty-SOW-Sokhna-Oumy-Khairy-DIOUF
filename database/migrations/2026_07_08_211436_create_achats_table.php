@@ -10,18 +10,14 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('achats', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('achats');
-    }
+{
+    Schema::create('achats', function (Blueprint $table) {
+        $table->id();
+        $table->integer('quantite');
+        $table->date('date_achat');
+        $table->foreignId('produit_id')->constrained('produits')->onDelete('cascade');
+        $table->foreignId('acheteur_id')->constrained('acheteurs')->onDelete('cascade');
+        $table->timestamps();
+    });
+}
 };
