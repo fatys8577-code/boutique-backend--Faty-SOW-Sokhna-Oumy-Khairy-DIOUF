@@ -14,8 +14,8 @@ class AchatController extends Controller
      */
     public function index()
     {
-        $achat = Achat::with('produit', 'acheteur')->latest()->get();
-        return view('achats.index', compact('achat'));
+        $achats = Achat::with('produit', 'acheteur')->latest()->get();
+        return view('achats.index', compact('achats'));
     }
 
     /**
