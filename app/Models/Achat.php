@@ -9,7 +9,13 @@ class Achat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['quantite', 'date_achat', 'produit_id', 'acheeteur_id'];
+    protected $fillable = [
+        'quantite',
+        'date_achat',
+        'produit_id',
+        'acheteur_id',
+    ];
+
     protected $casts = [
         'date_achat' => 'date',
     ];
@@ -23,5 +29,4 @@ class Achat extends Model
     {
         return $this->belongsTo(Acheteur::class);
     }
-
 }
