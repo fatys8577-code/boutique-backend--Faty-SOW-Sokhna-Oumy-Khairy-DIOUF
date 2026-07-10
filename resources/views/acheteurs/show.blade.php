@@ -49,7 +49,11 @@
                 </div>
 
                 <div class="flex space-x-2">
-                    <a href="{{ route('acheteurs.edit', $acheteur) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Modifier</a>
+                    @can('gerer-catalogue')
+                        <a href="{{ route('acheteurs.edit', $acheteur) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
+                            Modifier
+                        </a>
+                    @endcan
                     <a href="{{ route('acheteurs.index') }}" class="px-4 py-2 rounded border">Retour</a>
                 </div>
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acheteur;
+// use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AcheteurController extends Controller
 {
@@ -21,6 +23,7 @@ class AcheteurController extends Controller
      */
     public function create()
     {
+        Gate::authorize('gere-catalogue');
         return view('acheteurs.create');
     }
 
@@ -29,6 +32,7 @@ class AcheteurController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('gere-catalogue');
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'email' => 'required|email|unique:acheteurs,email',
@@ -44,6 +48,8 @@ class AcheteurController extends Controller
      */
     public function show(Acheteur $acheteur)
     {
+        // Gate::authorize('gere-catalogue');
+
         $acheteur->load('achats.produit');
         return view('acheteurs.show', compact('acheteur'));
     }
@@ -53,6 +59,8 @@ class AcheteurController extends Controller
      */
     public function edit(Acheteur $acheteur)
     {
+        Gate::authorize('gere-catalogue');
+
         return view('acheteurs.edit', compact('acheteur'));
     }
 
@@ -61,6 +69,8 @@ class AcheteurController extends Controller
      */
     public function update(Request $request, Acheteur $acheteur)
     {
+        Gate::authorize('gere-catalogue');
+
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'email' => 'required|email|unique:acheteurs,email,'.$acheteur->id,
@@ -76,6 +86,8 @@ class AcheteurController extends Controller
      */
     public function destroy(Acheteur $acheteur)
     {
+        Gate::authorize('gere-catalogue');
+
         $acheteur->delete();
         return redirect()->route('acheteurs.index')->with('success', 'Acheteur supprimé avec succès');
     }
