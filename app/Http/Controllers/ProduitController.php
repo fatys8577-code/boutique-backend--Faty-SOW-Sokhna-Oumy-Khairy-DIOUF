@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Produit;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ProduitController extends Controller
 {
@@ -26,6 +27,8 @@ class ProduitController extends Controller
      */
     public function create()
     {
+        Gate::authorize('gerer-catalogue');
+
         $categories = Categorie::all();
 
         return view('produits.create', compact('categories'));
@@ -37,6 +40,8 @@ class ProduitController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('gerer-catalogue');
+
         $request->validate([
             'nom' => 'required|string|max:255',
             'prix' => 'required|numeric',
@@ -45,9 +50,7 @@ class ProduitController extends Controller
             'categorie_id' => 'required|exists:categories,id',
         ]);
 
-
         Produit::create($request->all());
-
 
         return redirect()
             ->route('produits.index')
@@ -65,7 +68,6 @@ class ProduitController extends Controller
             'acheteurs'
         ]);
 
-
         return view('produits.show', compact('produit'));
     }
 
@@ -75,8 +77,9 @@ class ProduitController extends Controller
      */
     public function edit(Produit $produit)
     {
-        $categories = Categorie::all();
+        Gate::authorize('gerer-catalogue');
 
+        $categories = Categorie::all();
 
         return view('produits.edit', compact(
             'produit',
@@ -90,6 +93,8 @@ class ProduitController extends Controller
      */
     public function update(Request $request, Produit $produit)
     {
+        Gate::authorize('gerer-catalogue');
+
         $request->validate([
             'nom' => 'required|string|max:255',
             'prix' => 'required|numeric',
@@ -98,9 +103,7 @@ class ProduitController extends Controller
             'categorie_id' => 'required|exists:categories,id',
         ]);
 
-
         $produit->update($request->all());
-
 
         return redirect()
             ->route('produits.index')
@@ -113,12 +116,12 @@ class ProduitController extends Controller
      */
     public function destroy(Produit $produit)
     {
-        $produit->delete();
+        Gate::authorize('gerer-catalogue');
 
+        $produit->delete();
 
         return redirect()
             ->route('produits.index')
             ->with('success', 'Produit supprimé avec succès');
     }
 }
-

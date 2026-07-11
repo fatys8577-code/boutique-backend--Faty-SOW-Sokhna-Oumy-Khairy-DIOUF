@@ -15,9 +15,11 @@
 @endif
 
 
-<a href="{{ route('produits.create') }}">
-    Ajouter un produit
-</a>
+@can('gerer-catalogue')
+    <a href="{{ route('produits.create') }}">
+        Ajouter un produit
+    </a>
+@endcan
 
 
 <table border="1">
@@ -68,21 +70,26 @@
         </a>
 
 
-        <a href="{{ route('produits.edit', $produit) }}">
-            Modifier
-        </a>
+        @can('gerer-catalogue')
+
+            <a href="{{ route('produits.edit', $produit) }}">
+                Modifier
+            </a>
 
 
-        <form action="{{ route('produits.destroy', $produit) }}" method="POST" style="display:inline">
+            <form action="{{ route('produits.destroy', $produit) }}" method="POST" style="display:inline">
 
-            @csrf
-            @method('DELETE')
+                @csrf
+                @method('DELETE')
 
-            <button type="submit">
-                Supprimer
-            </button>
+                <button type="submit">
+                    Supprimer
+                </button>
 
-        </form>
+            </form>
+
+        @endcan
+
 
     </td>
 
