@@ -48,7 +48,7 @@ class AcheteurController extends Controller
      */
     public function show(Acheteur $acheteur)
     {
-        // Gate::authorize('gere-catalogue');
+        Gate::authorize('gere-catalogue');
 
         $acheteur->load('achats.produit');
         return view('acheteurs.show', compact('acheteur'));
