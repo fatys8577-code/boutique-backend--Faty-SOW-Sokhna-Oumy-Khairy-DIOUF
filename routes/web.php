@@ -16,13 +16,24 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('acheteurs', AcheteurController::class);
+
+    Route::resource('achats', AchatController::class);
+
+    Route::resource('categories', CategorieController::class)
+        ->parameters([
+            'categories' => 'categorie',
+        ]);
+
+    Route::resource('produits', ProduitController::class)
+        ->parameters([
+            'produits' => 'produit',
+        ]);
 });
 
-Route::resource('acheteurs',AcheteurController::class);
-Route::resource('achats',AchatController::class);
-Route::resource('categories', CategorieController::class);
-Route::resource('produits', ProduitController::class);
 require __DIR__.'/auth.php';
