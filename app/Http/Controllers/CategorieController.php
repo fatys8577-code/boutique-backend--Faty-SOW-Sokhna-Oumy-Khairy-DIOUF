@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategorieResource;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 
 class CategorieController extends Controller
 {
