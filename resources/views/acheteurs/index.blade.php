@@ -17,10 +17,15 @@
 
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-semibold">Acheteurs</h3>
+<<<<<<< HEAD
+                    @can('gerer-catalogue')
+                        <a href="{{ route('acheteurs.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+=======
 
                     @can('gerer-catalogue')
                         <a href="{{ route('acheteurs.create') }}"
                            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+>>>>>>> b5ccde3bd330e0a8b162e8e95ac1c9d1f1050077
                             + Nouvel acheteur
                         </a>
                     @endcan

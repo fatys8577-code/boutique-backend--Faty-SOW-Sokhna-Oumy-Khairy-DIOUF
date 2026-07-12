@@ -1,0 +1,556 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Gestion de boutique",
+        "description": "Documentation de l'API REST pour la gestion des categories, produits et acheteurs.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/acheteurs": {
+            "get": {
+                "tags": [
+                    "Acheteurs"
+                ],
+                "summary": "Lister tous les acheteurs",
+                "operationId": "ceb448e7363a1b4f5c03c3887b9d3b33",
+                "responses": {
+                    "200": {
+                        "description": "Liste des acheteurs"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Acheteurs"
+                ],
+                "summary": "Créer un acheteur",
+                "operationId": "6b668a84a36dfc1380fc5739de88dcdc",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nom",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Mamadou Diop"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "mamadou@mail.com"
+                                    },
+                                    "telephone": {
+                                        "type": "string",
+                                        "example": "771234567"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Acheteur créé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/api/acheteurs/{id}": {
+            "get": {
+                "tags": [
+                    "Acheteurs"
+                ],
+                "summary": "Détail d'un acheteur",
+                "operationId": "0b4a046c39c051627363aa160b67ca12",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détail de l'acheteur"
+                    },
+                    "404": {
+                        "description": "Acheteur non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Acheteurs"
+                ],
+                "summary": "Modifier un acheteur",
+                "operationId": "1b372799133848443208a82dd0578630",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Mamadou Diop"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "mamadou@mail.com"
+                                    },
+                                    "telephone": {
+                                        "type": "string",
+                                        "example": "771234567"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Acheteur modifié"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Acheteurs"
+                ],
+                "summary": "Supprimer un acheteur",
+                "operationId": "f262f81ec228e6afdb8bdaf1be2bd827",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Acheteur supprimé"
+                    }
+                }
+            }
+        },
+        "/api/acheteurs/{id}/acheter": {
+            "post": {
+                "tags": [
+                    "Acheteurs"
+                ],
+                "summary": "Enregistrer un achat",
+                "operationId": "854d078e310f389e27dc8905decc67e7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "produit_id",
+                                    "quantite"
+                                ],
+                                "properties": {
+                                    "produit_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "quantite": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "date_achat": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-07-11"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Achat enregistré"
+                    },
+                    "422": {
+                        "description": "Stock insuffisant ou erreur de validation"
+                    }
+                }
+            }
+        },
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Lister toutes les catégories",
+                "operationId": "d753b5a85d077f3a311df9eb28de8a1a",
+                "responses": {
+                    "200": {
+                        "description": "Liste des catégories"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Créer une catégorie",
+                "operationId": "1d6b893ef899e2aecece0a5e18049d8a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nom"
+                                ],
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Électronique"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Produits électroniques"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Catégorie créée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/api/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Détail d'une catégorie",
+                "operationId": "02f8d50a129f2d0b43f583dfe51c9cc5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détail de la catégorie"
+                    },
+                    "404": {
+                        "description": "Catégorie non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Modifier une catégorie",
+                "operationId": "2eaa317f2ea8871f48bcecdfe95e6a83",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Électronique"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Produits électroniques"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Catégorie modifiée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Supprimer une catégorie",
+                "operationId": "21702b2a8b7abdf7a40668fdcdf63a16",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Catégorie supprimée"
+                    }
+                }
+            }
+        },
+        "/api/produits": {
+            "get": {
+                "tags": [
+                    "Produits"
+                ],
+                "summary": "Lister tous les produits",
+                "operationId": "c7e27af70c1d33e37f767417e0880e68",
+                "responses": {
+                    "200": {
+                        "description": "Liste des produits"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Produits"
+                ],
+                "summary": "Créer un produit",
+                "operationId": "1dcf5bbc5058dd5e52384c289a96ba68",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nom",
+                                    "prix",
+                                    "stock",
+                                    "categorie_id"
+                                ],
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Clavier mécanique"
+                                    },
+                                    "prix": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 49.99
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 25
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Clavier rétroéclairé"
+                                    },
+                                    "categorie_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Produit créé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/api/produits/{id}": {
+            "get": {
+                "tags": [
+                    "Produits"
+                ],
+                "summary": "Détail d'un produit",
+                "operationId": "bd48b3dd26740d05293134d4155f41c1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détail du produit"
+                    },
+                    "404": {
+                        "description": "Produit non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Produits"
+                ],
+                "summary": "Modifier un produit",
+                "operationId": "db28bcb38f8bf8010cca584f0445eccd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Clavier mécanique"
+                                    },
+                                    "prix": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 49.99
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 25
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Clavier rétroéclairé"
+                                    },
+                                    "categorie_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produit modifié"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Produits"
+                ],
+                "summary": "Supprimer un produit",
+                "operationId": "8766477c306a0545db7a9060ff0c6ca1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Produit supprimé"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Acheteurs",
+            "description": "Gestion des acheteurs et de leurs achats"
+        },
+        {
+            "name": "Categories",
+            "description": "Gestion des catégories de produits"
+        },
+        {
+            "name": "Produits",
+            "description": "Gestion des produits"
+        }
+    ]
+}

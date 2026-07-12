@@ -3,89 +3,145 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProduitResource;
 use App\Models\Produit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use OpenApi\Attributes as OA;
 
+#[OA\Tag(name: "Produits", description: "Gestion des produits")]
 class ProduitController extends Controller
 {
-    /**
-     * Afficher tous les produits
-     */
+    #[OA\Get(
+        path: "/api/produits",
+        tags: ["Produits"],
+        summary: "Lister tous les produits",
+        responses: [
+            new OA\Response(response: 200, description: "Liste des produits")
+        ]
+    )]
     public function index()
     {
         $produits = Produit::with('categorie')->get();
-
-        return response()->json($produits);
+        return ProduitResource::collection($produits);
     }
 
-
-    /**
-     * Ajouter un produit
-     */
+    #[OA\Post(
+        path: "/api/produits",
+        tags: ["Produits"],
+        summary: "Créer un produit",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ["nom", "prix", "stock", "categorie_id"],
+                properties: [
+                    new OA\Property(property: "nom", type: "string", example: "Clavier mécanique"),
+                    new OA\Property(property: "prix", type: "number", format: "float", example: 49.99),
+                    new OA\Property(property: "stock", type: "integer", example: 25),
+                    new OA\Property(property: "description", type: "string", example: "Clavier rétroéclairé"),
+                    new OA\Property(property: "categorie_id", type: "integer", example: 1),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 201, description: "Produit créé"),
+            new OA\Response(response: 422, description: "Erreur de validation"),
+        ]
+    )]
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:255',
-            'prix' => 'required|numeric',
+            'prix' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'categorie_id' => 'required|exists:categories,id',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
-        $produit = Produit::create($validated);
+        $produit = Produit::create($validator->validated());
 
-
-        return response()->json([
-            'message' => 'Produit créé avec succès',
-            'produit' => $produit
-        ], 201);
+        return new ProduitResource($produit->load('categorie'));
     }
 
-
-    /**
-     * Afficher un produit précis
-     */
+    #[OA\Get(
+        path: "/api/produits/{id}",
+        tags: ["Produits"],
+        summary: "Détail d'un produit",
+        parameters: [
+            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+        ],
+        responses: [
+            new OA\Response(response: 200, description: "Détail du produit"),
+            new OA\Response(response: 404, description: "Produit non trouvé"),
+        ]
+    )]
     public function show(Produit $produit)
     {
-        return response()->json($produit->load('categorie'));
+        $produit->load(['categorie', 'achats.acheteur']);
+        return new ProduitResource($produit);
     }
 
-
-    /**
-     * Modifier un produit
-     */
+    #[OA\Put(
+        path: "/api/produits/{id}",
+        tags: ["Produits"],
+        summary: "Modifier un produit",
+        parameters: [
+            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+        ],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(property: "nom", type: "string", example: "Clavier mécanique"),
+                    new OA\Property(property: "prix", type: "number", format: "float", example: 49.99),
+                    new OA\Property(property: "stock", type: "integer", example: 25),
+                    new OA\Property(property: "description", type: "string", example: "Clavier rétroéclairé"),
+                    new OA\Property(property: "categorie_id", type: "integer", example: 1),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 200, description: "Produit modifié"),
+            new OA\Response(response: 422, description: "Erreur de validation"),
+        ]
+    )]
     public function update(Request $request, Produit $produit)
     {
-        $validated = $request->validate([
-            'nom' => 'required|string|max:255',
-            'prix' => 'required|numeric',
-            'stock' => 'required|integer|min:0',
+        $validator = Validator::make($request->all(), [
+            'nom' => 'sometimes|required|string|max:255',
+            'prix' => 'sometimes|required|numeric|min:0',
+            'stock' => 'sometimes|required|integer|min:0',
             'description' => 'nullable|string',
-            'categorie_id' => 'required|exists:categories,id',
+            'categorie_id' => 'sometimes|required|exists:categories,id',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
-        $produit->update($validated);
+        $produit->update($validator->validated());
 
-
-        return response()->json([
-            'message' => 'Produit modifié avec succès',
-            'produit' => $produit
-        ]);
+        return new ProduitResource($produit->load('categorie'));
     }
 
-
-    /**
-     * Supprimer un produit
-     */
+    #[OA\Delete(
+        path: "/api/produits/{id}",
+        tags: ["Produits"],
+        summary: "Supprimer un produit",
+        parameters: [
+            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+        ],
+        responses: [
+            new OA\Response(response: 204, description: "Produit supprimé")
+        ]
+    )]
     public function destroy(Produit $produit)
     {
         $produit->delete();
-
-
-        return response()->json([
-            'message' => 'Produit supprimé avec succès'
-        ]);
+        return response()->json(null, 204);
     }
 }
