@@ -7,41 +7,78 @@
 
 ---
 
-## Présentation des différentes vues de l'application (Frontend)
+# Présentation des différentes vues de l'application (Frontend)
 
-Le frontend de notre application a été développé avec **React**, **Vite**, **React Router** et **Tailwind CSS**. Il permet aux utilisateurs de consulter les informations de la boutique à travers une interface simple et moderne.
+Le frontend de notre application a été développé avec **React**, **Vite**, **React Router** et **Tailwind CSS**. Il communique avec l'API REST développée en Laravel afin de récupérer et d'afficher les données de la boutique.
+
+L'interface a été conçue pour être simple, moderne, responsive et facile à utiliser aussi bien sur ordinateur que sur mobile.
 
 Les principales vues de l'application sont les suivantes :
 
-### 1. Page d'accueil
+## 1. Page d'accueil
 
-Cette page constitue le point d'entrée de l'application. Elle présente l'application de gestion de boutique et permet d'accéder facilement aux différentes fonctionnalités grâce à la barre de navigation.
+Cette page constitue le point d'entrée de l'application. Elle présente le projet de gestion de boutique et permet d'accéder rapidement aux principales fonctionnalités grâce à une barre de navigation commune.
 
-### 2. Liste des produits
+## 2. Liste des produits
 
-Cette page affiche tous les produits enregistrés dans la base de données. Pour chaque produit, l'utilisateur peut consulter son nom, son prix, son stock disponible ainsi que sa catégorie.
+Cette page affiche tous les produits enregistrés dans la base de données. Pour chaque produit, l'utilisateur peut consulter :
 
-### 3. Détail d'un produit
+* le nom ;
+* le prix ;
+* le stock disponible ;
+* la catégorie associée.
 
-Cette vue présente toutes les informations concernant un produit sélectionné. Elle permet de consulter ses caractéristiques ainsi que la catégorie à laquelle il appartient.
+Les produits sont présentés sous forme de cartes modernes avec une mise en page responsive.
 
-### 4. Liste des catégories
+## 3. Détail d'un produit
 
-Cette page affiche toutes les catégories disponibles dans la boutique. Elle facilite la consultation et l'organisation des différents produits.
+Cette vue présente toutes les informations concernant un produit sélectionné :
 
-La navigation entre ces différentes pages est assurée grâce à React Router afin d'offrir une expérience fluide à l'utilisateur.
+* son nom ;
+* son prix ;
+* son stock ;
+* sa catégorie ;
+* sa description lorsqu'elle est disponible.
+
+Un bouton permet également de revenir facilement à la liste des produits.
+
+## 4. Liste des catégories
+
+Cette page affiche toutes les catégories enregistrées dans la boutique.
+
+Chaque catégorie présente :
+
+* son nom ;
+* sa description ;
+* le nombre de produits appartenant à cette catégorie.
+
+Les catégories sont également affichées sous forme de cartes afin d'assurer une présentation claire et homogène.
+
+## Interface utilisateur
+
+L'ensemble de l'interface a été réalisé avec **Tailwind CSS**.
+
+Elle comprend notamment :
+
+* une barre de navigation commune à toutes les pages ;
+* une page d'accueil moderne ;
+* des cartes pour les produits et les catégories ;
+* des couleurs harmonieuses ;
+* des effets visuels au survol des cartes ;
+* un pied de page (Footer) affichant le nom du projet ainsi que les membres du binôme ;
+* une interface responsive adaptée aux ordinateurs et aux appareils mobiles.
 
 ---
 
-## Présentation de la documentation Swagger (Backend)
+# Présentation de la documentation Swagger (Backend)
 
-Le backend a été développé avec **Laravel** et expose une **API REST** entièrement documentée grâce à **Swagger**.
+Le backend a été développé avec **Laravel** et expose une **API REST** documentée grâce à **Swagger**.
 
-Cette documentation interactive permet de consulter et de tester directement toutes les routes de l'API sans utiliser un outil externe.
+Cette documentation interactive permet de consulter et de tester directement toutes les routes de l'API sans utiliser un logiciel externe.
 
 Les principales ressources documentées sont :
 
-### Catégories
+## Catégories
 
 * Lister les catégories
 * Créer une catégorie
@@ -49,7 +86,7 @@ Les principales ressources documentées sont :
 * Modifier une catégorie
 * Supprimer une catégorie
 
-### Produits
+## Produits
 
 * Lister les produits
 * Créer un produit
@@ -57,68 +94,76 @@ Les principales ressources documentées sont :
 * Modifier un produit
 * Supprimer un produit
 
-### Acheteurs
+## Acheteurs
 
 * Lister les acheteurs
 * Créer un acheteur
-* Consulter les informations d'un acheteur
+* Consulter un acheteur
 * Modifier un acheteur
 * Supprimer un acheteur
-* Enregistrer un nouvel achat pour un acheteur
+* Enregistrer un achat
 
-Swagger permet également de visualiser les paramètres attendus, les réponses de l'API ainsi que les différents codes HTTP retournés.
+Swagger permet également de visualiser :
+
+* les paramètres des requêtes ;
+* les réponses de l'API au format JSON ;
+* les différents codes de réponse HTTP.
 
 ---
 
-## Les différents rôles de l'application
+# Les différents rôles de l'application
 
-L'application met en œuvre une gestion des rôles afin de contrôler les accès aux différentes fonctionnalités.
+L'application met en œuvre une gestion des rôles afin de limiter l'accès aux différentes fonctionnalités.
 
-### Administrateur
+## Administrateur
 
 L'administrateur possède tous les droits. Il peut :
 
-* consulter les catégories, produits et acheteurs ;
+* consulter les catégories, les produits et les acheteurs ;
 * créer, modifier et supprimer les catégories ;
 * créer, modifier et supprimer les produits ;
 * créer, modifier et supprimer les acheteurs ;
-* gérer les utilisateurs ainsi que leurs rôles.
+* gérer les utilisateurs et leurs rôles.
 
-### Gestionnaire
+## Gestionnaire
 
 Le gestionnaire peut :
 
-* consulter les catégories, produits et acheteurs ;
+* consulter les catégories, les produits et les acheteurs ;
 * créer, modifier et supprimer les catégories ;
 * créer, modifier et supprimer les produits ;
 * créer, modifier et supprimer les acheteurs ;
 * enregistrer les achats.
 
-### Employé
+## Employé
 
 L'employé peut :
 
 * consulter les catégories ;
 * consulter les produits ;
 * consulter les acheteurs ;
-* enregistrer un achat.
+* enregistrer les achats.
 
-Les restrictions sont appliquées aussi bien au niveau des routes Laravel que de l'affichage des différentes vues.
+Les restrictions d'accès sont appliquées aussi bien sur les routes Laravel que sur l'affichage des différentes vues de l'application.
 
 ---
 
- Liens GitHub
+# Liens GitHub
 
- Dépôt Backend
+## Dépôt Backend
+
 https://github.com/fatys8577-code/boutique-backend--Faty-SOW-Sokhna-Oumy-Khairy-DIOUF
 
-Dépôt Frontend
+## Dépôt Frontend
+
 https://github.com/fatys8577-code/boutique-frontend-Faty-SOW-Sokhna-Oumy-Khairy-DIOUF-
 
+---
 
+# Conclusion
 
- Conclusion
+Ce projet nous a permis de mettre en pratique les principaux concepts de Laravel et de React à travers le développement d'une application complète de gestion de boutique.
 
-Ce projet nous a permis de mettre en pratique les principaux concepts de Laravel et de React, notamment la création d'une API REST, la gestion des relations entre les modèles, l'authentification, les rôles utilisateurs, la documentation avec Swagger ainsi que le développement d'une interface moderne consommant les données de l'API.
+Nous avons réalisé un backend Laravel avec authentification, gestion des rôles, relations entre les modèles, API REST et documentation Swagger. Nous avons également développé un frontend React moderne, responsive et connecté à l'API Laravel grâce à React Router et Tailwind CSS.
 
-L'ensemble de l'application respecte les exigences fonctionnelles définies dans la consigne et permet la gestion des catégories, des produits, des acheteurs ainsi que des achats.
+Ce projet nous a permis de renforcer nos compétences en développement web full stack, en gestion de projet avec Git et GitHub ainsi qu'en travail collaboratif au sein d'un binôme.
